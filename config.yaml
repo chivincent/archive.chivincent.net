@@ -1,0 +1,116 @@
+baseurl: "https://blog.chivincent.net"
+languageCode: "zh-TW"
+theme: hugo-theme-stack
+paginate: 10
+title: "ChiVincent's Blog"
+
+DefaultContentLanguage: en
+
+permalinks:
+  post: /p/:slug/
+  page: /:slug/
+
+params:
+  mainSections:
+    - post
+  featuredImageField: image
+  rssFullContent: true
+
+  footer:
+    since: 2021
+
+  dateFormat:
+    published: 2006/01/02
+    lastUpdated: 2006/01/01 00:00
+
+  sidebar:
+    avatar:
+      enabled: true
+      local: false
+      src: https://www.gravatar.com/avatar/03e22b766e0f889cf9e18e78c8c59595?s=200
+
+  article:
+    math: true
+    toc: true
+    readingTime: true
+    license:
+      enabled: true
+      default: Licensed under CC BY-NC-SA 4.0
+
+  comments:
+    enabled: true
+    provider: giscus
+
+    giscus:
+      repo: ChiVincent/blog.chivincent.net
+      repoID: MDEwOlJlcG9zaXRvcnkzOTg2MjE2ODk=
+      category: General
+      categoryID: DIC_kwDOF8J7-c4B-w7l
+      mapping: pathname
+      theme: dark_dimmed
+      reactionEnabled: 1
+      emditMetadata: 0
+
+  widgets:
+    enabled:
+      - search
+      - archives
+      - tag-cloud
+
+    archives:
+      limit: 5
+
+    tagCloud:
+      limit: 10
+
+  opengraph:
+    twitter:
+      site: chivincent0715
+      card: summary_large_image
+
+  defaultImage:
+    opengraph:
+      enabled: false
+      local: false
+      src:
+
+  colorSchema:
+    toggle: true
+    default: auto
+
+  imageProcessing:
+    cover:
+      enabled: true
+    content:
+      enabled: true
+
+menu:
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: -100
+      pre: home
+    - identifier: about
+      name: About Me
+      url: /about
+      weight: -90
+      pre: user
+
+related:
+  includeNewer: true
+  threshold: 60
+  toLower: false
+  indices:
+    - name: tags
+      weight: 100
+    - name: categories
+      weight: 200
+
+markup:
+  tableOfContents:
+    endLevel: 4
+    ordered: true
+    startLevel: 2
+  highlight:
+    noClasses: false
