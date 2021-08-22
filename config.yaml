@@ -6,6 +6,8 @@ title: "ChiVincent's Blog"
 
 DefaultContentLanguage: en
 
+googleAnalytics: G-RQ18NWKWDF
+
 permalinks:
   post: /p/:slug/
   page: /:slug/
