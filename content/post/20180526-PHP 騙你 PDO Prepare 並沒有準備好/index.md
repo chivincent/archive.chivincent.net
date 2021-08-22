@@ -56,8 +56,8 @@ try {
 
 ### 環境
 
-- PHP 7.2.5
-- MySQL 8.0.11 (in Docker)
+- PHP 8.0.9
+- MySQL 8.0.26 (in Docker)
 
 ### 結果
 
@@ -71,7 +71,7 @@ try {
 
 ![Request Prepare Statement](1_Jl1fnWIPZuW9t86afveahg.png)
 
-![Rquest Execute Statement](1_Jl1fnWIPZuW9t86afveahg.png)
+![Rquest Execute Statement](1_uFCR7TsihoFL30H9R_ibFQ.png)
 
 ## 結論
 
