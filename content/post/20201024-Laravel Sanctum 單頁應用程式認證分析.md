@@ -48,10 +48,10 @@ tags:
 
 從 Laravel Sacntum 的 [EnsureFrontendRequestsAreStateful](https://github.com/laravel/sanctum/blob/2.x/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php#L18) 這個 Middleware 中可以瞭解到：
 
-- 如果請求來自 SPA，套件會自動載入與 Session 相關的幾個 Middlewares
+- 如果請求來自第一方前端介面（SPA），套件會自動載入與 Session 相關的幾個 Middlewares
 - 否則套件就依然沿用原本的設定（預設上，API Middleware 並不會啟用 Session 相關的功能）
 
-套件會從 HTTP Header 中的 `refer` 或 `origin` 判斷請求的來源，並且用 `config/sanctum.php` 中的 `stateful` 作為依據
+套件會從 HTTP Header 中的 `refer` 或 `origin` 判斷請求的來源，並且用 `config/sanctum.php` 中設定的 `stateful` 作為依據
 
 ```php
     public static function fromFrontend($request)
@@ -68,7 +68,7 @@ tags:
 
 ### 模擬 SPA 請求
 
-如果希望用 `curl` 之類的指令模擬來自 SPA 的請求，需要加上 `-H "origin: $SPA_DOMAIN"` 才能夠達成
+如果希望用 `curl` 之類的指令模擬來自 SPA 的請求，需要加上 `-H "origin: $SPA_DOMAIN"` 或 `-H "referer: $SPA_DOMAIN` 才能夠達成
 
 ```bash
 export SPA_DOMAIN=http://localhost:3000
