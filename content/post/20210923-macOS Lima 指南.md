@@ -1,6 +1,6 @@
 ---
 title: "macOS Lima 指南"
-date: 2021-09-05T11:14:39+08:00
+date: 2021-09-23T23:11:39+08:00
 slug: macos-lima
 categories:
   - 資訊技術
