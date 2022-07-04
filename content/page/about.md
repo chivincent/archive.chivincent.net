@@ -1,6 +1,6 @@
 ---
 title: "關於我"
-date: 2021-08-22T02:24:16+08:00
+date: 2022-07-04T12:55:16+08:00
 slug: about
 comments: false
 license: false
@@ -17,6 +17,10 @@ toc: false
 
 - 精通 PHP 7+ 與 [Laravel Framework](https://laravel.com)
 - 熟悉 Golang, Python, Javascript (ES6+), Rust 及 C
+
+## 社群
+
+- [GitHub](https://github.com/chivincent/)
 
 ## 遊戲
 
