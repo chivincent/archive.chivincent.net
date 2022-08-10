@@ -4,7 +4,7 @@ theme: hugo-theme-stack
 paginate: 10
 title: "ChiVincent's Blog"
 
-DefaultContentLanguage: en
+DefaultContentLanguage: zh
 
 googleAnalytics: G-RQ18NWKWDF
 
@@ -54,16 +54,16 @@ params:
       emditMetadata: 0
 
   widgets:
-    enabled:
-      - search
-      - archives
-      - tag-cloud
-
-    archives:
-      limit: 5
-
-    tagCloud:
-      limit: 10
+    homepage:
+      - type: search
+      - type: archives
+        params:
+          limit: 5
+      - type: tag-cloud
+        params:
+          limmit: 10
+    page:
+      - type: toc
 
   opengraph:
     twitter:
@@ -117,3 +117,5 @@ markup:
   highlight:
     noClasses: false
     lineNos: true
+    lineNumbersInTable: true
+    tabWidth: 4
