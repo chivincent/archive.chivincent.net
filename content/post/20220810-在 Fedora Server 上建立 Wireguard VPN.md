@@ -27,6 +27,8 @@ $ sudo nmcli connection modify $NETWORK_INTERFACE \
     ipv4.method manual
 ```
 
+> 註：這個是我個人環境下的配置，請根據自己的網路架構進行設計。
+
 ## 安裝
 
 ```
@@ -49,8 +51,6 @@ $ sudo dnf install wireguard-tools
 
 ```
 $ umask 077
-$ echo 'iKASmQMKyrSckns6uuObrNIlCJq7CvsWXzgDiaTVR38=' > server_privkey
-$ echo 'Zm8Tdg93CuYwPAGI9yBNOEqr5sYsPRhUPo59joHzTAw=' > server_pubkey
 $ cat << EOF >> /etc/wireguard/wg0.conf
 [Interface]
 Address = 10.0.0.1/24
@@ -82,30 +82,30 @@ EOF
 
 ```
 $ umask 077
-$ wg genkey | tee server_privkey | wg pubkey > server_pubkey
-$ wg genpsk > psk # Client 間可以共享同一組 PSK，或是每個 Client 都設定一組
-```
-
-建立 `/etc/wireguard/wg0.conf` ，內容如下
-
-```
+$ cat << EOF >> /etc/wireguard/wg0.conf
 [Interface]
 Address = 10.0.0.1/24
 ListenPort = 51820
-PrivateKey = 填入 server_privkey 的內容
+PrivateKey = $(wg genkey)
 
-# 第一個客戶端
 [Peer]
-PublicKey = 填入 Client1 的 public key 內容
-PresharedKey = 填入 psk 的內容
+PublicKey = 
+PresharedKey = $(wg genpsk)
 AllowedIPs = 10.0.0.2/32
 
-# 第二個客戶端
 [Peer]
-PublicKey = 填入 Client2 的 public key 內容
-PresharedKey = 填入 psk 的內容
+PublicKey = 
+PresharedKey = $(wg genpsk)
 AllowedIPs = 10.0.0.3/32
+
+[Peer]
+PublicKey = 
+PresharedKey = $(wg genpsk)
+AllowedIPs = 10.0.0.4/32
+EOF
 ```
+
+建立完成後，記得在每個 Peer 的 `PublicKey` 中填入各客戶端的 Public Key。
 
 然後在各客戶端間以相同步驟建立 public key 及 private key，並且加入設定檔，內容如下：
 
@@ -136,9 +136,9 @@ $ qrencode -t ansiutf8 < client.conf
 建立 Wireguard 設定檔後，應該還無法連線，因為還沒有設定防火牆。在 Fedora Server 36 中，預設使用 firewalld。
 
 ```
-$ firewall-cmd --set-default-zone=public # 預設是 FedoraServer，這邊改成 public
-$ firewall-cmd --zone=public --add-service=wireguard --permanent
-$ firewall-cmd --zone=public --add-masquerade --permanent
+$ firewall-cmd --zone=FedoraServer --add-service=wireguard --permanent
+$ firewall-cmd --zone=FedoraServer --add-masquerade --permanent
+$ filewall-cmd --zone=FedoraServer --add-forward --permanent
 $ firewall-cmd --reload
 ```
 
