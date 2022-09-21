@@ -400,3 +400,37 @@ Route::get('job/timeout', function () {
 ### Exception
 
 對於單純丟出 Exception，Queue 會立即重試，不需等待 `retry_after`（因為 Exception 丟出之後表示任務已經失敗）
+
+## 加碼探討：Laravel Horizon
+
+[Laravel Horizon](https://laravel.com/docs/9.x/horizon) 是一個由 Laravel 官方提供的 Queue Worker 管理套件。
+
+除了 Dashboard 以外，Laravel Horizon 以 PHP + pcntl extension 與 Symfony Process 實現了親代行程（Parent Process）與子行程（Child Process）的架構：
+
+```
+|----------------------------------------------------|
+| Horizon                                            |
+|                                                    |
+|   |-------------------|         |---------------|  |
+|   | Master Supervisor | ------- | Supervisor    |  |
+|   |-------------------|    |    |---------------|  |
+|                            |                       |
+|                            |    |---------------|  |
+|                            |--- | Supervisor    |  |
+|                                 |---------------|  |
+|                                                    |
+|                                                    |
+|----------------------------------------------------|
+```
+
+- `php artisan horizon` 會監聽 SIGINT（Ctrl+C），在收到中止訊號時 Graceful Shutdown
+- Master Supervisor（Parent Process）會去監測並管理各 child 的狀態
+- Supervisor（Child Process）會互相監測其它 supervisor 的狀態
+  - 實際上，Supervisor 下還有一個 Supervisor Process 用於實際執行 Queue Job，這邊為了簡化就省略說明
+- Master Supervisor 與 Supervisor 都會監聽一些 POSIX 訊號，用來實作中止、重啟、暫停與繼續
+
+也就是說，如果利用 Horizon 的話，Queue Worker 就不需要依賴 Container Restart Policy 或 Supervisord 管理重新啟動事宜，尤其遭遇會 Timeout 或 Out of Memory 的任務時。
+
+> 註：事實上，Horizon 仍有中止的可能性，所以習慣上還是會使用合理的方式在其中止時重新啟動
+
+在任務的執行行為上，Horizon 與原生的 Queue Worker 其實並沒有什麼不同，包括錯誤處理時都有類似的邏輯。
