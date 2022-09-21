@@ -44,7 +44,7 @@ params:
     provider: giscus
 
     giscus:
-      repo: ChiVincent/blog.chivincent.net
+      repo: chivincent/chivincent.net
       repoID: MDEwOlJlcG9zaXRvcnkzOTg2MjE2ODk=
       category: General
       categoryID: DIC_kwDOF8J7-c4B-w7l
