@@ -324,8 +324,6 @@ Route::get('job/timeout', function () {
 - 最大執行時間：60 秒
 - 記憶體上限：50 MB（預設值是 128 MB）
 
-
-
 ### SimpleLog
 
 ![SimpleLog Log](1.png)
@@ -380,4 +378,25 @@ Route::get('job/timeout', function () {
 
 ## 重試（Retry）
 
-（WIP）
+在 Laravel Queue 中可以設定當任務失敗時重試，有兩種方式：
+
+- 在 `php artisan queue:work` 中以 `--tries` 指定重試次數
+- 在 Job Class 中，可以用 `public int $tries` 指定該任務的重試次數（優先權較高）
+
+以下實驗以 `php artisan queue:work --tries 3` 指定重試三次。
+
+### LargeMemory 與 Timeout
+
+因為 `LargeMemory` 與 `Timeout` 任務的表現相當類似，在這邊一併討論。
+
+與先前類似，`LargeMemory` 與 `Timeout` 兩個任務都會中止當前的 Queue Worker。並且在 `retry_after` 秒後重新排入 Queue 中再次執行。
+
+在第三次執行後，經過 `retry_after` 秒後會丟出 `MaxAttemptsExceededException` 代表重試次數已達上限。
+
+> 註：在 Log File 中可以看到，`LargeMemory` 會丟出的 `MaxAttemptsExceededException` 會被記錄下來，而 `Timeout` 並不會
+
+![MaxAttemptsExceededExcepiton in Log](6.png)
+
+### Exception
+
+對於單純丟出 Exception，Queue 會立即重試，不需等待 `retry_after`（因為 Exception 丟出之後表示任務已經失敗）
