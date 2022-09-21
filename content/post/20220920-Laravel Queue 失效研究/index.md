@@ -328,9 +328,13 @@ Route::get('job/timeout', function () {
 
 ### SimpleLog
 
+![SimpleLog Log](1.png)
+
 毫無疑問，`SimpleLog` 本身就是個不會出錯的任務，無論是在哪個 Queue Connection 下都能正常運行，在實驗中充當 Base Case。
 
 ### LargeMemory
+
+![LargeMemory Log](2.png)
 
 一旦 `dispatch(new LargeMemory())` 後，PHP 就會丟出 Fatal Error，訊息應該大致上類似於 `Allowed memory size of 134217728 bytes exhausted (tried to allocate 536870920 bytes)`，此時 Queue Worker 會直接停止運作（依賴 Docker Compose 的 Restart Policy，它會重啟）
 
@@ -353,13 +357,26 @@ Route::get('job/timeout', function () {
 
 ### Timeout
 
-對於一般的任務超時，Queue Worker 會在超時後將任務記錄到 `failed_jobs` 表格中並且停止 Queue Worker。（是的，它又停了，所以又要依賴 Docker Compose 的 Restart Policy 或 Supervisor 將它重新啟動）
+![Timeout Log](3.png)
+![Timeout Console Log](4.png)
 
-根據[官方文件](https://laravel.com/docs/9.x/queues#timeout)，部份 IO Blocking 的 Process 並不會遵守 Queue Worker 所設定的 Timeout 值，這可能導致 `failed_jobs` 中記錄了某任務的失敗，但實際上它是成功的。
+對於任務超時，會有幾個行為：
+
+- 任務失敗，記錄於 `failed_jobs` 中
+- 中止 Queue Worker（所以必須依賴 Container 的重啟機制或 Supervisor）
+
+> 註：根據[官方文件](https://laravel.com/docs/9.x/queues#timeout)，部份 IO Blocking 的 Process 並不會遵守 Queue Worker 所設定的 Timeout 值，這可能導致 `failed_jobs` 中記錄了某任務的失敗，但實際上它是成功的。
 
 ### Exception
 
-對於在 Job 中丟出 Exception 的行為，Queue Worker 僅會單純將其記錄到 `failed_jobs` 表，並不會有其它額外行為。
+![Exception Log](5.png)
+
+如果任務中丟出 Exception：
+
+- 任務失敗，記錄於 `failed_jobs` 中
+- 相關的 Exception 會被記錄到 Laravel Log 上
+
+單純的丟出  Exception **不會** 中止 Queue Worker。
 
 ## 重試（Retry）
 
