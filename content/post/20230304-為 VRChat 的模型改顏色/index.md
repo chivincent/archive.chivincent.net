@@ -22,6 +22,7 @@ tags:
 ## 事前準備
 
 - [VRChat Crator Companion](https://vcc.docs.vrchat.com/)：簡稱 VCC，VRChat 官方提供的工具，可以整合 Unity 與一些 Pakcage Manager
+    - 其實我目前是把它當成 Unity 的啟動器，大多數的功能我都沒有用到
 - [Unity 2019.4.31f1](https://unity.com/releases/editor/archive#download-archive-2019)：VRChat 官方所推薦的 Unity 版本，建議使用 Unity Hub 進行安裝
     - 僅有這個版本能夠跟 VCC 互相對應，我試過使用 2019.4.40 發現無法綁定
     - 如果不是使用這個版本，需要手動安裝 VRChat SDK

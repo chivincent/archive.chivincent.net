@@ -23,6 +23,9 @@ tags:
 - [VSeeFaceSDK](https://github.com/emilianavt/VSeeFaceSDK/releases/tag/v1.13.38c)
 - [UniVRM](https://github.com/vrm-c/UniVRM/releases/tag/v0.108.0)
     - VSeeFaceSDK 說要使用 v0.89 的 UniVRM，不過經過測試 v0.108 也是可以的
+- [VSeeFace](https://www.vseeface.icu/#download)
+- [iFacialMocap](https://apps.apple.com/us/app/ifacialmocap/id1489470545)
+    - 如果單純想嘗試一下效果，也可以先用免費的 [iFacialMocapTr](https://apps.apple.com/tw/app/ifacialmocaptr/id1520971310)
 
 ## 流程
 
@@ -71,7 +74,23 @@ Apply 之後，點擊 Avatar Definition 的 Configure，會進到 Avatar Configu
 
 ![](6.png)
 
-最後，重新發佈一次 VRM 模型，應該就可以正常在 VSeeFace 中使用這個角色模型，再搭配 iFacialMocap 即可做到表情偵測即可在 OBS 中使用它
+最後，重新發佈一次 VRM 模型，應該就可以正常在 VSeeFace 中使用這個角色模型
+
+### 在 VSeeFace 中與 iFacialMocap iOS 連動
+
+開啟 VSeeFace，點選增加虛擬化身，並且選擇剛剛匯出的 VRM 模型，且右邊的攝影機與麥克風先隨便選擇（如果打算使用電腦上的 Webcam 與麥克風，就要在這邊先選好）
+
+![](7.png)
+
+將 iOS 設備連線到與 VSeeFace 相同的區域網路（想成是連到同一個 WiFi），再打開 iFacialMocap，它會在啟動時說明目前 iPhone 所在的 IP 位置：
+
+![](8.jpeg)
+
+在 VSeeFace 的「設定 > 一般設定」中，找到「iFacialMocap/FaceMocap3D/VTube Studio」中勾選「iPhone/ARKit追蹤接收器」，並且填入剛剛 iOS iFacialMocap 顯示的 IP 地址
+
+![](9.png)
+
+{{< youtube id=nb3hetfzx60 >}}
 
 ## 參考資料
 
