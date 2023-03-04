@@ -19,7 +19,7 @@ tags:
 
 本次的操作皆以這個模型為範例，理論上流程是差不多的，但可能在提供的東西上會有些差異
 
-##　事前準備
+## 事前準備
 
 - [VRChat Crator Companion](https://vcc.docs.vrchat.com/)：簡稱 VCC，VRChat 官方提供的工具，可以整合 Unity 與一些 Pakcage Manager
 - [Unity 2019.4.31f1](https://unity.com/releases/editor/archive#download-archive-2019)：VRChat 官方所推薦的 Unity 版本，建議使用 Unity Hub 進行安裝
